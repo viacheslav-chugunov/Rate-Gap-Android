@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.core)
+    alias(libs.plugins.android.kapt)
 }
 
 android {
@@ -47,6 +49,7 @@ dependencies {
     implementation(project(":feature:network"))
     implementation(project(":feature:screen:rate"))
     implementation(project(":feature:storage"))
+    implementation(project(":feature:domain:currency"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -57,4 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.hilt.core)
+    implementation(libs.hilt.compose)
+    kapt(libs.hilt.kapt)
 }

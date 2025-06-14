@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.core)
+    alias(libs.plugins.android.kapt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -32,4 +35,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.hilt.core)
+    implementation(libs.hilt.compose)
+    kapt(libs.hilt.kapt)
+    implementation(libs.kotlinx.serialization.json)
 }

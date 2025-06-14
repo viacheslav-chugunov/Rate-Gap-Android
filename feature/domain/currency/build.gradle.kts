@@ -3,11 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.core)
     alias(libs.plugins.android.kapt)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "zenith.apps.network"
+    namespace = "zenith.apps.currency"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     compileOptions {
@@ -22,14 +21,9 @@ android {
 
 dependencies {
     implementation(project(":core"))
-
+    implementation(project(":feature:network"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
     implementation(libs.hilt.core)
-    implementation(libs.hilt.compose)
     kapt(libs.hilt.kapt)
-    implementation(libs.retrofit.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit.kotlin.serialization)
-    debugImplementation(libs.chucker.core)
-    releaseImplementation(libs.chucker.no.op)
 }
