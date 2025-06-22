@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal class CurrencyResponseDTO(
-    @SerialName("data")
+    @SerialName("date")
     val updatedAt: String,
     @SerialName("eur")
-    val currencies: List<CurrencyDTO>
+    val rates: Map<String, Double>
 )

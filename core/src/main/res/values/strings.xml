@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="fetching_data">Fetching data…</string>
+    <string name="failed_to_fetch_data">Failed to fetch data</string>
+    <string name="current_rate">Current rate</string>
+    <string name="real_rate">Real rate</string>
+    <string name="commission">Commission</string>
+    <string name="retry">Retry</string>
+    <string name="low_commission_up_to_format">Low commission (up to %s%%)</string>
+    <string name="medium_commission_up_to_format">Medium commission (up to %s%%)</string>
+    <string name="high_commission_up_to_format">High commission (up to %s%%)</string>
+    <string name="very_high_commission_above_format">Very high commission (above %s%%)</string>
+    <string name="internal_error_double_check_your_input_and_try_again">Internal error. Double check your input and try again</string>
+    <string name="enter_first_currency_value">Enter first currency value</string>
+    <string name="enter_second_currency_value">Enter second currency value</string>
+    <string name="no_commission">No commission</string>
+    <string name="uah_name">Ukrainian Hryvnia</string>
+    <string name="usd_name">US Dollar</string>
+    <string name="eur_name">Euro</string>
+    <string name="btc_name">Bitcoin</string>
+    <string name="eth_name">Ethereum</string>
+    <string name="bnb_name">BNB</string>
+    <string name="usdt_name">Tether</string>
+    <string name="xrp_name">XRP</string>
 </resources>

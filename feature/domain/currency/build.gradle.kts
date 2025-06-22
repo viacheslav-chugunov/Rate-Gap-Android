@@ -22,6 +22,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":feature:network"))
+    implementation(project(":feature:storage"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     implementation(libs.hilt.core)

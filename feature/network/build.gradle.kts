@@ -25,7 +25,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.core)
-    implementation(libs.hilt.compose)
     kapt(libs.hilt.kapt)
     implementation(libs.retrofit.core)
     implementation(libs.kotlinx.serialization.json)
