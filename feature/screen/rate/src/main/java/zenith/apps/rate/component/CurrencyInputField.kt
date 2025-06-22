@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,6 +39,7 @@ internal fun CurrencyInputField(
     value: String,
     onValueChange: (String) -> Unit,
     pickCurrency: () -> Unit,
+    hint: String,
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Next
 ) {
@@ -55,8 +60,7 @@ internal fun CurrencyInputField(
        Column(
            modifier = Modifier
                .padding(end = 12.dp)
-               .clip(MaterialTheme.shapes.extraSmall)
-               .clickable(onClick = pickCurrency),
+               .clickable(onClick = pickCurrency, indication = null, interactionSource = null),
            horizontalAlignment = Alignment.CenterHorizontally
        ) {
            Image(
@@ -91,7 +95,7 @@ internal fun CurrencyInputField(
            shape = MaterialTheme.shapes.small,
            placeholder = {
                Text(
-                   text = value.ifEmpty { "0" },
+                   text = value.ifEmpty { hint },
                    color = MaterialTheme.colorScheme.onSurface.copy(
                        alpha = if (value.isEmpty()) 0.4f else 1f
                    ),
@@ -103,7 +107,22 @@ internal fun CurrencyInputField(
                keyboardType = KeyboardType.Decimal,
                imeAction = imeAction
            ),
-           modifier = Modifier.fillMaxWidth()
+           modifier = Modifier.fillMaxWidth(),
+           leadingIcon = {
+               if (value.isNotEmpty()) {
+                   IconButton(
+                       onClick = {
+                           onValueChange("")
+                       },
+                   ) {
+                       Icon(
+                           imageVector = Icons.Default.Clear,
+                           contentDescription = null
+                       )
+                   }
+               }
+           },
+           singleLine = true
        )
     }
 }
@@ -116,7 +135,8 @@ private fun Preview() {
             currency = Currency.UAH_TEST,
             value = "100",
             onValueChange = {},
-            pickCurrency = {}
+            pickCurrency = {},
+            hint = "0"
         )
     }
 }

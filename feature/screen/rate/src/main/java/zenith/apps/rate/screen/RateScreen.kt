@@ -19,13 +19,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import zenith.apps.core.model.Currency
 import zenith.apps.currency.model.ExchangePair
 import zenith.apps.core.ui.theme.RateGapTheme
+import zenith.apps.rate.component.ActionTopBar
 import zenith.apps.rate.component.CurrencyInputField
 import zenith.apps.rate.component.RatesBlock
 
 @Composable
 fun RateScreen(
-    pickFromCurrency: () -> Unit,
-    pickToCurrency: () -> Unit
+    pickCurrency: (Currency) -> Unit
 ) {
     val viewModel = hiltViewModel<RateViewModel>()
 
@@ -33,8 +33,8 @@ fun RateScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         updateFromCurrencyInput = viewModel::updateFromCurrencyInput,
         updateToCurrencyInput = viewModel::updateToCurrencyInput,
-        pickFromCurrency = pickFromCurrency,
-        pickToCurrency = pickToCurrency
+        pickCurrency = pickCurrency,
+        swapExchangePair = viewModel::swapExchangePair
     )
 }
 
@@ -43,12 +43,18 @@ private fun Content(
     state: RateState,
     updateFromCurrencyInput: (String) -> Unit,
     updateToCurrencyInput: (String) -> Unit,
-    pickFromCurrency: () -> Unit,
-    pickToCurrency: () -> Unit
+    pickCurrency: (Currency) -> Unit,
+    swapExchangePair: () -> Unit
 ) {
     if (state.exchangePair == null) return
 
-    Scaffold { padding ->
+    Scaffold(
+        topBar = {
+            ActionTopBar(
+                swapExchangePair = swapExchangePair
+            )
+        }
+    ) { padding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -62,7 +68,10 @@ private fun Content(
                 currency = state.exchangePair.fromCurrency,
                 value = state.fromCurrencyInput,
                 onValueChange = updateFromCurrencyInput,
-                pickCurrency = pickFromCurrency,
+                pickCurrency = {
+                    pickCurrency(state.exchangePair.fromCurrency)
+                },
+                hint = state.fromCurrencyHint,
                 modifier = Modifier
                     .padding(start = 24.dp, bottom = 12.dp)
                     .shadow(
@@ -78,7 +87,10 @@ private fun Content(
                 value = state.toCurrencyInput,
                 onValueChange = updateToCurrencyInput,
                 imeAction = ImeAction.Done,
-                pickCurrency = pickToCurrency,
+                pickCurrency = {
+                    pickCurrency(state.exchangePair.toCurrency)
+                },
+                hint = state.toCurrencyHint,
                 modifier = Modifier
                     .padding(start = 24.dp, bottom = 16.dp)
                     .shadow(
@@ -120,8 +132,8 @@ private fun Preview() {
             ),
             updateFromCurrencyInput = {},
             updateToCurrencyInput = {},
-            pickFromCurrency = {},
-            pickToCurrency = {}
+            pickCurrency = {},
+            swapExchangePair = {}
         )
     }
 }

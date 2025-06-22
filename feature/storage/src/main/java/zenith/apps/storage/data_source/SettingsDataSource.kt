@@ -2,6 +2,8 @@ package zenith.apps.storage.data_source
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+import zenith.apps.core.util.CoroutineDispatchers
 import zenith.apps.storage.dao.SettingDao
 import javax.inject.Inject
 
@@ -17,7 +19,8 @@ interface SettingsDataSource {
 }
 
 internal class DefaultSettingsDataSource @Inject constructor(
-    private val settingDao: SettingDao
+    private val settingDao: SettingDao,
+    private val coroutineDispatchers: CoroutineDispatchers
 ): SettingsDataSource {
 
     override fun getInt(name: String, default: Int): Flow<Int> =
@@ -32,15 +35,19 @@ internal class DefaultSettingsDataSource @Inject constructor(
     override fun getString(name: String, default: String): Flow<String> =
         settingDao.get(name).map { it?.value ?: default }
 
-    override suspend fun putInt(name: String, value: Int) =
+    override suspend fun putInt(name: String, value: Int) = withContext(coroutineDispatchers.io) {
         settingDao.put(zenith.apps.storage.entity.SettingEntity(name, value.toString()))
+    }
 
-    override suspend fun putDouble(name: String, value: Double) =
+    override suspend fun putDouble(name: String, value: Double) = withContext(coroutineDispatchers.io) {
         settingDao.put(zenith.apps.storage.entity.SettingEntity(name, value.toString()))
+    }
 
-    override suspend fun putBoolean(name: String, value: Boolean) =
+    override suspend fun putBoolean(name: String, value: Boolean) = withContext(coroutineDispatchers.io) {
         settingDao.put(zenith.apps.storage.entity.SettingEntity(name, value.toString()))
+    }
 
-    override suspend fun putString(name: String, value: String) =
+    override suspend fun putString(name: String, value: String) = withContext(coroutineDispatchers.io) {
         settingDao.put(zenith.apps.storage.entity.SettingEntity(name, value))
+    }
 }

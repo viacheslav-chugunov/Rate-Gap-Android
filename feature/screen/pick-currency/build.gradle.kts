@@ -1,35 +1,14 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.core)
     alias(libs.plugins.android.kapt)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "zenith.apps.rategap"
+    namespace = "zenith.apps.pick_currency"
     compileSdk = libs.versions.compileSdk.get().toInt()
-
-    defaultConfig {
-        applicationId = "zenith.apps.rategap"
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = libs.versions.versionCode.get().toInt()
-        versionName = libs.versions.versionName.get()
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.valueOf(libs.versions.jvmTargetCompatibility.get())
@@ -47,12 +26,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":feature:network"))
-    implementation(project(":feature:screen:rate"))
-    implementation(project(":feature:screen:splash"))
-    implementation(project(":feature:screen:pick-currency"))
-    implementation(project(":feature:storage"))
     implementation(project(":feature:domain:currency"))
+    implementation(project(":feature:domain:user-preference"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -65,6 +40,4 @@ dependencies {
     implementation(libs.hilt.core)
     implementation(libs.hilt.compose)
     kapt(libs.hilt.kapt)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
 }

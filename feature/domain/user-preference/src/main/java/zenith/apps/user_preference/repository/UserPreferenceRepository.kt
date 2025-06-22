@@ -5,12 +5,14 @@ import kotlinx.coroutines.flow.combine
 import zenith.apps.storage.data_source.SettingsDataSource
 import zenith.apps.user_preference.model.ExchangeRateAssessment
 import javax.inject.Inject
+import javax.inject.Singleton
 
 interface UserPreferenceRepository {
     val exchangeRateAssessment: Flow<ExchangeRateAssessment>
     suspend fun updateExchangeRateAssessment(assessment: ExchangeRateAssessment)
 }
 
+@Singleton
 internal class DefaultUserPreferenceRepository @Inject constructor(
     private val settingsDataSource: SettingsDataSource
 ) : UserPreferenceRepository {

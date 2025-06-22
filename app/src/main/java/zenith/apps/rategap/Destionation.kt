@@ -9,4 +9,4 @@ data object SplashDestination
 data object RateDestination
 
 @Serializable
-data object PickCurrencyDestination
+data class PickCurrencyDestination(val currencyCode: String)

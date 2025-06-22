@@ -95,7 +95,7 @@ fun RatesBlock(
                 modifier = modifier
                     .fillMaxWidth()
                     .background(
-                        color = MaterialTheme.colorScheme.tertiary,
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
                         shape = MaterialTheme.shapes.medium
                     )
                     .padding(16.dp)
@@ -103,7 +103,7 @@ fun RatesBlock(
                 Text(
                     text = message ?: "",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }
@@ -121,7 +121,7 @@ fun RatesBlock(
                 modifier = modifier
                     .fillMaxWidth()
                     .background(
-                        color = MaterialTheme.colorScheme.tertiary,
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
                         shape = MaterialTheme.shapes.medium
                     )
                     .padding(16.dp)
@@ -129,34 +129,34 @@ fun RatesBlock(
                 Text(
                     text = stringResource(R.string.current_rate),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
                 Text(
                     text = "${fromCurrencyInput.asPrice} $fromCurrencyCode = ${toCurrencyInput.asPrice} $toCurrencyCode",
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
                 Text(
                     text = stringResource(R.string.real_rate),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onTertiary,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Text(
                     text = "${fromCurrencyInput.asPrice} $fromCurrencyCode = ${toCurrencyRealValue?.asPrice} $toCurrencyCode",
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
                 Text(
                     text = stringResource(R.string.commission),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onTertiary,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Text(
                     text = "${commissionValue?.asPrice} $toCurrencyCode (${commissionPercent?.asPrice}%)",
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
                 if (hint != null) {
                     Text(

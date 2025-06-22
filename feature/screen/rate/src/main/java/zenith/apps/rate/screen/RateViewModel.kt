@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import zenith.apps.currency.use_case.GetAllCurrenciesUseCase
 import zenith.apps.currency.use_case.GetExchangePairUseCase
+import zenith.apps.currency.use_case.UpdateExchangePairUseCase
 import zenith.apps.user_preference.use_case.GetExchangeRateAssessmentUseCase
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ import javax.inject.Inject
 internal class RateViewModel @Inject constructor(
     private val getExchangePairUseCase: GetExchangePairUseCase,
     private val getExchangeRateAssessmentUseCase: GetExchangeRateAssessmentUseCase,
+    private val updateExchangePairUseCase: UpdateExchangePairUseCase
 ) : ViewModel() {
     private val mutableState = MutableStateFlow(RateState())
     val state = mutableState.asStateFlow()
@@ -43,5 +45,12 @@ internal class RateViewModel @Inject constructor(
 
     fun updateToCurrencyInput(input: String) {
         mutableState.update { it.copy(toCurrencyInput = input) }
+    }
+
+    fun swapExchangePair() {
+        viewModelScope.launch {
+            val exchangePair = mutableState.value.exchangePair ?: return@launch
+            updateExchangePairUseCase(exchangePair.swap())
+        }
     }
 }

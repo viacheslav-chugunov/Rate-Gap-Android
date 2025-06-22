@@ -40,7 +40,8 @@ internal class DefaultCurrencyRepository @Inject constructor(
     }
 
     override suspend fun updateExchangePair(exchangePair: ExchangePair) {
-
+        settingsDataSource.putString(KEY_EXCHANGE_PAIR_FROM_CURRENCY, exchangePair.fromCurrency.code)
+        settingsDataSource.putString(KEY_EXCHANGE_PAIR_TO_CURRENCY, exchangePair.toCurrency.code)
     }
 
     override suspend fun loadCurrencies() {

@@ -14,6 +14,7 @@
     <string name="enter_first_currency_value">Enter first currency value</string>
     <string name="enter_second_currency_value">Enter second currency value</string>
     <string name="no_commission">No commission</string>
+    <string name="enter_currency">Enter currency</string>
     <string name="uah_name">Ukrainian Hryvnia</string>
     <string name="usd_name">US Dollar</string>
     <string name="eur_name">Euro</string>
