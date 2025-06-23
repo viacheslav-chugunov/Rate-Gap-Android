@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.ZeroCornerSize
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,11 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import zenith.apps.core.model.Currency
 import zenith.apps.core.ui.theme.RateGapTheme
+import zenith.apps.core.R
 
 @Composable
 internal fun CurrencyTile(
     currency: Currency,
     onClick: () -> Unit,
+    updateFavouriteState: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -67,7 +69,7 @@ internal fun CurrencyTile(
                     .size(24.dp)
             )
             Text(
-                text = "[${currency.code}]",
+                text = "[${currency.code.uppercase()}]",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -75,8 +77,21 @@ internal fun CurrencyTile(
         Text(
             text = currency.name,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.weight(1f)
         )
+        IconButton(
+            onClick = updateFavouriteState
+        ) {
+            Icon(
+                painter = painterResource(
+                    if (currency.isInFavourite) R.drawable.ic_star_shine else R.drawable.ic_star
+                ),
+                contentDescription = null,
+                tint = if (currency.isInFavourite) MaterialTheme.colorScheme.inversePrimary else
+                    MaterialTheme.colorScheme.onPrimary
+            )
+        }
     }
 }
 
@@ -86,7 +101,8 @@ private fun Preview() {
     RateGapTheme {
         CurrencyTile(
             currency = Currency.UAH_TEST,
-            onClick = {}
+            onClick = {},
+            updateFavouriteState = {}
         )
     }
 }

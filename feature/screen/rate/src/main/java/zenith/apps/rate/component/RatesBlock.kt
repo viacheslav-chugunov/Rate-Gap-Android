@@ -41,7 +41,7 @@ fun RatesBlock(
     val toCurrencyInputValue = remember(toCurrencyInput) {
         toCurrencyInput.toDoubleOrNull()
     }
-    val toCurrencyRealValue = remember(fromCurrencyInputValue) {
+    val toCurrencyRealValue = remember(fromCurrencyInputValue, exchangePair) {
         fromCurrencyInputValue?.let { it * exchangePair.rate }
     }
     val commissionValue = remember(toCurrencyInputValue, toCurrencyRealValue) {

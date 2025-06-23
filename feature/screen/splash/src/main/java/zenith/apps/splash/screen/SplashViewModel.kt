@@ -24,7 +24,7 @@ internal class SplashViewModel @Inject constructor(
     fun loadCurrencies() {
         viewModelScope.launch {
             try {
-                mutableState.update { it.copy(isLoading = true) }
+                mutableState.update { it.copy(isLoading = true, error = null) }
                 loadCurrenciesUseCase()
                 mutableState.update { it.copy(isLoading = false) }
             } catch (e: Throwable) {

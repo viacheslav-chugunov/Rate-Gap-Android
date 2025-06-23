@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import zenith.apps.storage.AppDatabase
+import zenith.apps.storage.dao.FavouriteCurrencyDao
 import zenith.apps.storage.dao.SettingDao
 import javax.inject.Singleton
 
@@ -30,5 +31,11 @@ internal class StorageModule {
     fun provideSettingDao(
         appDatabase: AppDatabase
     ): SettingDao = appDatabase.settingDao
+
+    @Provides
+    @Singleton
+    fun provideFavouriteCurrencyDao(
+        appDatabase: AppDatabase
+    ): FavouriteCurrencyDao = appDatabase.favouriteCurrencyDao
 
 }

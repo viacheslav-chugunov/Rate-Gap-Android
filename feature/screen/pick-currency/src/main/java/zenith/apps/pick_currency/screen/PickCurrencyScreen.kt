@@ -33,7 +33,11 @@ fun PickCurrencyScreen(
         state = viewModel.state.collectAsStateWithLifecycle().value,
         navigateBack = navigateBack,
         pickCurrency = viewModel::updateCurrency,
-        updateSearchQuery = viewModel::updateSearchQuery
+        updateSearchQuery = viewModel::updateSearchQuery,
+        updateCurrencyFilter = viewModel::updateCurrencyFilter,
+        updateCryptoFilter = viewModel::updateCryptoFilter,
+        updateFavouriteFilter = viewModel::updateFavouriteFilter,
+        updateFavouriteState = viewModel::updateFavouriteState
     )
 }
 
@@ -42,7 +46,11 @@ private fun Content(
     state: PickCurrencyState,
     pickCurrency: (Currency) -> Unit,
     navigateBack: () -> Unit,
-    updateSearchQuery: (String) -> Unit
+    updateSearchQuery: (String) -> Unit,
+    updateCurrencyFilter: (Boolean) -> Unit,
+    updateCryptoFilter: (Boolean) -> Unit,
+    updateFavouriteFilter: (Boolean) -> Unit,
+    updateFavouriteState: (Currency) -> Unit
 ) {
     LaunchedEffect(state.currencyPicked) {
         if (state.currencyPicked) {
@@ -55,7 +63,13 @@ private fun Content(
             SearchTopBar(
                 query = state.searchQuery,
                 onQueryChange = updateSearchQuery,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                enableCurrenciesFilter = state.enableCurrenciesFilter,
+                enableCryptoFilter = state.enableCryptoFilter,
+                enableFavouriteFilter = state.enableFavouriteFilter,
+                onEnableCurrenciesFilterChange = updateCurrencyFilter,
+                onEnableCryptoFilterChange = updateCryptoFilter,
+                onEnableFavouriteFilterChange = updateFavouriteFilter
             )
         }
     ) { padding ->
@@ -77,6 +91,9 @@ private fun Content(
                     onClick = {
                         pickCurrency(currency)
                     },
+                    updateFavouriteState = {
+                        updateFavouriteState(currency)
+                    },
                     modifier = Modifier.animateItem()
                 )
             }
@@ -94,7 +111,11 @@ private fun Preview() {
             ),
             navigateBack = {},
             pickCurrency = {},
-            updateSearchQuery = {}
+            updateSearchQuery = {},
+            updateCurrencyFilter = {},
+            updateCryptoFilter = {},
+            updateFavouriteFilter = {},
+            updateFavouriteState = {}
         )
     }
 }
