@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,18 @@ plugins {
     alias(libs.plugins.android.kapt)
     alias(libs.plugins.kotlin.serialization)
 }
+
+val privateProperties = Properties().apply {
+    try {
+        load(rootDir.resolve("private.properties").inputStream())
+    } catch (e: FileNotFoundException) {
+        // Ability to create a debug build without a private.properties file
+        Properties()
+    }
+}
+
+val signingKeystorePassword: String = privateProperties.getProperty("signing.keystore.password", "")
+val signingKeyPassword: String = privateProperties.getProperty("signing.key.password", "")
 
 android {
     namespace = "zenith.apps.rategap"
@@ -19,15 +34,24 @@ android {
         versionName = libs.versions.versionName.get()
     }
 
+    signingConfigs {
+        register("release") {
+            storeFile = file("../keystore.jks")
+            storePassword = signingKeystorePassword
+            keyAlias = "key"
+            keyPassword = signingKeyPassword
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs["release"]
         }
     }
 
