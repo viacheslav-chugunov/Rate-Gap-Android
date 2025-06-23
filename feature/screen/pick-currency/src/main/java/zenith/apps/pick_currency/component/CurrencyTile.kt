@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import zenith.apps.core.model.Currency
 import zenith.apps.core.ui.theme.RateGapTheme
 import zenith.apps.core.R
+import zenith.apps.core.ui.component.CurrencyIcon
 
 @Composable
 internal fun CurrencyTile(
@@ -57,23 +58,10 @@ internal fun CurrencyTile(
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .then(modifier)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        CurrencyIcon(
+            currency = currency,
             modifier = Modifier.padding(end = 24.dp)
-        ) {
-            Image(
-                painter = painterResource(currency.icon),
-                contentDescription = currency.name,
-                modifier = Modifier
-                    .padding(bottom = 4.dp)
-                    .size(24.dp)
-            )
-            Text(
-                text = "[${currency.code.uppercase()}]",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
+        )
         Text(
             text = currency.name,
             style = MaterialTheme.typography.titleMedium,

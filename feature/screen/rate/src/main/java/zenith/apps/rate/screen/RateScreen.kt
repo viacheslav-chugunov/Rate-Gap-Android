@@ -21,6 +21,7 @@ import zenith.apps.currency.model.ExchangePair
 import zenith.apps.core.ui.theme.RateGapTheme
 import zenith.apps.rate.component.ActionTopBar
 import zenith.apps.rate.component.CurrencyInputField
+import zenith.apps.rate.component.FavouriteExchangePairsBlock
 import zenith.apps.rate.component.RatesBlock
 
 @Composable
@@ -34,7 +35,9 @@ fun RateScreen(
         updateFromCurrencyInput = viewModel::updateFromCurrencyInput,
         updateToCurrencyInput = viewModel::updateToCurrencyInput,
         pickCurrency = pickCurrency,
-        swapExchangePair = viewModel::swapExchangePair
+        swapExchangePair = viewModel::swapExchangePair,
+        updateFavouriteExchangePairState = viewModel::updateFavouriteExchangePairState,
+        pickExchangePair = viewModel::pickExchangePair
     )
 }
 
@@ -44,14 +47,18 @@ private fun Content(
     updateFromCurrencyInput: (String) -> Unit,
     updateToCurrencyInput: (String) -> Unit,
     pickCurrency: (Currency) -> Unit,
-    swapExchangePair: () -> Unit
+    swapExchangePair: () -> Unit,
+    updateFavouriteExchangePairState: () -> Unit,
+    pickExchangePair: (ExchangePair) -> Unit
 ) {
     if (state.exchangePair == null) return
 
     Scaffold(
         topBar = {
             ActionTopBar(
-                swapExchangePair = swapExchangePair
+                isExchangePairInFavourite = state.exchangePair.isInFavourite,
+                swapExchangePair = swapExchangePair,
+                updateFavouriteExchangePairState = updateFavouriteExchangePairState
             )
         }
     ) { padding ->
@@ -110,7 +117,20 @@ private fun Content(
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .shadow(
                         elevation = 8.dp,
-                        shape = MaterialTheme.shapes.medium
+                        shape = MaterialTheme.shapes.large
+                    )
+            )
+            FavouriteExchangePairsBlock(
+                exchangePairs = state.favouriteExchangePairs,
+                pickExchangePair = pickExchangePair,
+                modifier = Modifier
+                    .padding(end = 24.dp, bottom = 16.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = MaterialTheme.shapes.large.copy(
+                            topStart = ZeroCornerSize,
+                            bottomStart = ZeroCornerSize
+                        )
                     )
             )
         }
@@ -123,17 +143,17 @@ private fun Preview() {
     RateGapTheme {
         Content(
             state = RateState(
-                exchangePair = ExchangePair(
-                    fromCurrency = Currency.UAH_TEST,
-                    toCurrency = Currency.BTC_TEST
-                ),
+                exchangePair = ExchangePair.UAH_BTC_TEST,
                 fromCurrencyInput = "100",
-                toCurrencyInput = "76"
+                toCurrencyInput = "76",
+                favouriteExchangePairs = listOf(ExchangePair.UAH_BTC_TEST)
             ),
             updateFromCurrencyInput = {},
             updateToCurrencyInput = {},
             pickCurrency = {},
-            swapExchangePair = {}
+            swapExchangePair = {},
+            updateFavouriteExchangePairState = {},
+            pickExchangePair = {}
         )
     }
 }

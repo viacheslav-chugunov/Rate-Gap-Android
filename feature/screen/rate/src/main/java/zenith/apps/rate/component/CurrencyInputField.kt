@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import zenith.apps.core.model.Currency
+import zenith.apps.core.ui.component.CurrencyIcon
 import zenith.apps.core.ui.theme.RateGapTheme
 
 @Composable
@@ -57,73 +58,60 @@ internal fun CurrencyInputField(
         ,
         verticalAlignment = Alignment.CenterVertically
     ) {
-       Column(
-           modifier = Modifier
-               .padding(end = 12.dp)
-               .clickable(onClick = pickCurrency, indication = null, interactionSource = null),
-           horizontalAlignment = Alignment.CenterHorizontally
-       ) {
-           Image(
-               painter = painterResource(id = currency.icon),
-               contentDescription = currency.name,
-               modifier = Modifier
-                   .padding(bottom = 4.dp)
-                   .size(48.dp)
-           )
-           Text(
-               text = "[${currency.code.uppercase()}]",
-               style = MaterialTheme.typography.labelMedium,
-               color = MaterialTheme.colorScheme.onPrimaryContainer
-           )
-       }
-       TextField(
-           value = value,
-           onValueChange = { newValue ->
-               if (Regex("^$|^(0|[1-9]\\d*)(\\.\\d*)?$").matches(newValue)) {
-                   onValueChange(newValue)
-               }
-           },
-           textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
-           colors = TextFieldDefaults.colors(
-               unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-               unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-               unfocusedIndicatorColor = Color.Transparent,
-               focusedContainerColor = MaterialTheme.colorScheme.surface,
-               focusedTextColor = MaterialTheme.colorScheme.onSurface,
-               focusedIndicatorColor = Color.Transparent
-               ),
-           shape = MaterialTheme.shapes.small,
-           placeholder = {
-               Text(
-                   text = value.ifEmpty { hint },
-                   color = MaterialTheme.colorScheme.onSurface.copy(
-                       alpha = if (value.isEmpty()) 0.4f else 1f
-                   ),
-                   textAlign = TextAlign.End,
-                   modifier = Modifier.fillMaxWidth()
-               )
-           },
-           keyboardOptions = KeyboardOptions(
-               keyboardType = KeyboardType.Decimal,
-               imeAction = imeAction
-           ),
-           modifier = Modifier.fillMaxWidth(),
-           leadingIcon = {
-               if (value.isNotEmpty()) {
-                   IconButton(
-                       onClick = {
-                           onValueChange("")
-                       },
-                   ) {
-                       Icon(
-                           imageVector = Icons.Default.Clear,
-                           contentDescription = null
-                       )
-                   }
-               }
-           },
-           singleLine = true
-       )
+        CurrencyIcon(
+            currency = currency,
+            modifier = Modifier
+                .padding(end = 12.dp)
+                .clickable(onClick = pickCurrency, indication = null, interactionSource = null)
+        )
+        TextField(
+            value = value,
+            onValueChange = { newValue ->
+                if (Regex("^$|^(0|[1-9]\\d*)(\\.\\d*)?$").matches(newValue)) {
+                    onValueChange(newValue)
+                }
+            },
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            shape = MaterialTheme.shapes.small,
+            placeholder = {
+                Text(
+                    text = value.ifEmpty { hint },
+                    color = MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = if (value.isEmpty()) 0.4f else 1f
+                    ),
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = imeAction
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                if (value.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            onValueChange("")
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = null
+                        )
+                    }
+                }
+            },
+            singleLine = true
+        )
     }
 }
 

@@ -96,7 +96,7 @@ fun RatesBlock(
                     .fillMaxWidth()
                     .background(
                         color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = MaterialTheme.shapes.medium
+                        shape = MaterialTheme.shapes.large
                     )
                     .padding(16.dp)
             ) {
@@ -122,7 +122,7 @@ fun RatesBlock(
                     .fillMaxWidth()
                     .background(
                         color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = MaterialTheme.shapes.medium
+                        shape = MaterialTheme.shapes.large
                     )
                     .padding(16.dp)
             ) {
@@ -183,10 +183,7 @@ fun RatesBlock(
 private fun PreviewCalculation() {
     RateGapTheme {
         RatesBlock(
-            exchangePair = ExchangePair(
-                fromCurrency = Currency.UAH_TEST,
-                toCurrency = Currency.BTC_TEST
-            ),
+            exchangePair = ExchangePair.UAH_BTC_TEST,
             fromCurrencyInput = "100",
             toCurrencyInput = "76",
             exchangeRateAssessment = ExchangeRateAssessment.DEFAULT

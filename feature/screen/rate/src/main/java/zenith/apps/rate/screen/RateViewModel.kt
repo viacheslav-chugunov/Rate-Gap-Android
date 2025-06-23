@@ -11,8 +11,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import zenith.apps.currency.model.ExchangePair
 import zenith.apps.currency.use_case.GetAllCurrenciesUseCase
 import zenith.apps.currency.use_case.GetExchangePairUseCase
+import zenith.apps.currency.use_case.GetFavouriteExchangePairsUseCase
+import zenith.apps.currency.use_case.UpdateExchangePairFavouriteStateUseCase
 import zenith.apps.currency.use_case.UpdateExchangePairUseCase
 import zenith.apps.user_preference.use_case.GetExchangeRateAssessmentUseCase
 import javax.inject.Inject
@@ -21,7 +24,9 @@ import javax.inject.Inject
 internal class RateViewModel @Inject constructor(
     private val getExchangePairUseCase: GetExchangePairUseCase,
     private val getExchangeRateAssessmentUseCase: GetExchangeRateAssessmentUseCase,
-    private val updateExchangePairUseCase: UpdateExchangePairUseCase
+    private val getFavouriteExchangePairsUseCase: GetFavouriteExchangePairsUseCase,
+    private val updateExchangePairUseCase: UpdateExchangePairUseCase,
+    private val updateExchangePairFavouriteStateUseCase: UpdateExchangePairFavouriteStateUseCase
 ) : ViewModel() {
     private val mutableState = MutableStateFlow(RateState())
     val state = mutableState.asStateFlow()
@@ -35,6 +40,11 @@ internal class RateViewModel @Inject constructor(
         viewModelScope.launch {
             getExchangeRateAssessmentUseCase().collectLatest { exchangeRateAssessment ->
                 mutableState.update { it.copy(exchangeRateAssessment = exchangeRateAssessment) }
+            }
+        }
+        viewModelScope.launch {
+            getFavouriteExchangePairsUseCase().collectLatest { favouriteExchangePairs ->
+                mutableState.update { it.copy(favouriteExchangePairs = favouriteExchangePairs) }
             }
         }
     }
@@ -51,6 +61,19 @@ internal class RateViewModel @Inject constructor(
         viewModelScope.launch {
             val exchangePair = mutableState.value.exchangePair ?: return@launch
             updateExchangePairUseCase(exchangePair.swap())
+        }
+    }
+
+    fun updateFavouriteExchangePairState() {
+        viewModelScope.launch {
+            val exchangePair = mutableState.value.exchangePair ?: return@launch
+            updateExchangePairFavouriteStateUseCase(exchangePair)
+        }
+    }
+
+    fun pickExchangePair(exchangePair: ExchangePair) {
+        viewModelScope.launch {
+            updateExchangePairUseCase(exchangePair)
         }
     }
 }

@@ -8,7 +8,8 @@ internal data class RateState(
     val exchangePair: ExchangePair? = null,
     val fromCurrencyInput: String = "",
     val toCurrencyInput: String = "",
-    val exchangeRateAssessment: ExchangeRateAssessment = ExchangeRateAssessment.DEFAULT
+    val exchangeRateAssessment: ExchangeRateAssessment = ExchangeRateAssessment.DEFAULT,
+    val favouriteExchangePairs: List<ExchangePair> = emptyList()
 ) {
     val fromCurrencyHint: String = when {
         fromCurrencyInput.isEmpty() && toCurrencyInput.isEmpty() -> "0"
