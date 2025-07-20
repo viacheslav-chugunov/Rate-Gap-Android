@@ -53,6 +53,10 @@ android {
             )
             signingConfig = signingConfigs["release"]
         }
+        debug {
+            applicationIdSuffix = ".deubg"
+            versionNameSuffix = "debug"
+        }
     }
 
     compileOptions {
@@ -66,6 +70,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
