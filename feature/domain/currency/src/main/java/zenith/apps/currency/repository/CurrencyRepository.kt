@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import zenith.apps.core.model.Currency
 import zenith.apps.core.util.CoroutineDispatchers
@@ -32,16 +33,15 @@ internal class DefaultCurrencyRepository @Inject constructor(
     private val networkCurrencyDataSource: NetworkCurrencyDataSource,
     private val settingsDataSource: SettingsDataSource,
     private val favouritesDataSource: FavouritesDataSource,
-    coroutineDispatchers: CoroutineDispatchers
+    appCoroutineScope: CoroutineScope
 ) : CurrencyRepository {
-    private val coroutineScope = CoroutineScope(coroutineDispatchers.io)
     private val networkCurrencies: MutableSharedFlow<List<NetworkCurrency>> = MutableSharedFlow(replay = 1)
 
     override val allCurrencies: MutableSharedFlow<List<Currency>> = MutableSharedFlow(replay = 1)
     override val favouriteExchangePairs: MutableSharedFlow<List<ExchangePair>> = MutableSharedFlow(replay = 1)
 
     init {
-        coroutineScope.launch {
+        appCoroutineScope.launch {
             combine(
                 networkCurrencies.distinctUntilChanged(),
                 favouritesDataSource.allFavouriteCurrencyCodes.distinctUntilChanged(),
